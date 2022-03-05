@@ -7,7 +7,40 @@ services:
       dockerfile: ./Dockerfile.dev
     environment:
       - APP_PORT=${APP_PORT}
+      - POSTGRES_HOST=${POSTGRES_HOST}
+      - POSTGRES_PORT=${POSTGRES_PORT}
+      - DATABASE_USER=${DATABASE_USER}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      - DATABASE_NAME=${DATABASE_NAME}
     ports:
-      - "8080:3000"
+      - "7585:3000"
     volumes:
       - ./:/app
+    depends_on:
+      - db
+
+  db:
+    container_name: psql-db
+    image: postgres
+    restart: always
+    environment: 
+      - POSTGRES_USER=${DATABASE_USER}
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+      - POSTGRES_DB=${DATABASE_NAME}
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+
+  pgadmin:
+    container_name: pgadmin4
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      - PG_ADMIN_ID=${PG_ADMIN_ID}
+      - PG_ADMIN_PASSWORD=${PG_ADMIN_PASSWORD}
+      - PG_ADMIN_PORT=${PG_ADMIN_PORT}
+    ports:
+      - "1779:80"
+    volumes:
+      - ./pgadmin-data:/var/lib/pgadmin
+    depends_on:
+      - db
