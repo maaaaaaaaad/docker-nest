@@ -21,6 +21,8 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, options)
   SwaggerModule.setup('api', app, document)
 
+  app.useGlobalPipes()
+
   await app.listen(port)
 }
 bootstrap()
