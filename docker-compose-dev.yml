@@ -13,7 +13,7 @@ services:
       - DATABASE_PASSWORD=${DATABASE_PASSWORD}
       - DATABASE_NAME=${DATABASE_NAME}
     ports:
-      - "7585:3000"
+      - "7585:8080"
     volumes:
       - ./:/app
     depends_on:
@@ -34,12 +34,12 @@ services:
     container_name: pgadmin4
     image: dpage/pgadmin4
     restart: always
-    environment:
-      - PG_ADMIN_ID=${PG_ADMIN_ID}
-      - PG_ADMIN_PASSWORD=${PG_ADMIN_PASSWORD}
-      - PG_ADMIN_PORT=${PG_ADMIN_PORT}
+    environment: 
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
+      - PGADMIN_LISTEN_PORT=${PGADMIN_LISTEN_PORT}
     ports:
-      - "1779:80"
+      - "8080:80"
     volumes:
       - ./pgadmin-data:/var/lib/pgadmin
     depends_on:
